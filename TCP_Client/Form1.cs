@@ -112,7 +112,7 @@ namespace TCP_Client
             {
                 // Establish the remote endpoint for the socket.
                 // This example uses port 11000 on the local computer.
-                IPHostEntry ipHostInfo = Dns.Resolve("192.168.1.35");
+                IPHostEntry ipHostInfo = Dns.Resolve(serverAddress.Text);
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
 
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 12000);
@@ -231,7 +231,18 @@ namespace TCP_Client
         }
         // Incoming data from the client.
         public static string data = null;
-
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("Local IP Address Not Found!");
+        }
         public void StartListening()
         {
             new Thread(() =>
@@ -246,7 +257,7 @@ namespace TCP_Client
                 // Establish the local endpoint for the socket.
                 // Dns.GetHostName returns the name of the 
                 // host running the application.
-                IPHostEntry ipHostInfo = Dns.Resolve("192.168.1.21");
+                IPHostEntry ipHostInfo = Dns.Resolve(GetLocalIPAddress());
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 12000);
 
