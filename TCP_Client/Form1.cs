@@ -307,11 +307,15 @@ namespace TCP_Client
                                 {
 
                                     richTextBox1.Text = data;
+                                    richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                                    richTextBox1.ScrollToCaret();
                                 }));
                             }
                             else
                             {
                                 richTextBox1.Text = data;
+                                richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                                richTextBox1.ScrollToCaret();
 
                             }
                             //if (selectBTN.InvokeRequired)
@@ -411,12 +415,16 @@ namespace TCP_Client
                             {
 
                                 richTextBox1.Text += "\nNow sending message to " + comboBox1.Text;
+                                richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                                richTextBox1.ScrollToCaret();
 
                             }));
                         }
                         else
                         {
                             richTextBox1.Text += "\nNow sending message to " + comboBox1.Text;
+                            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                            richTextBox1.ScrollToCaret();
 
 
                         }
