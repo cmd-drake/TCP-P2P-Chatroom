@@ -358,7 +358,6 @@ namespace TCP_Client
             {
                 Thread.CurrentThread.IsBackground = true;
                 //your code here 
-                Console.WriteLine("New Thread");
 
                 // richTextBox1.Text = "Connecting to " + comboBox1.Text + "....";
                 // Data buffer for incoming data.
@@ -367,7 +366,6 @@ namespace TCP_Client
                 // Connect to a remote device.
                 try
                 {
-                    Console.WriteLine("Try Connection to Remote Device!");
 
                     // Establish the remote endpoint for the socket.
                     // This example uses port 11000 on the local computer.
@@ -392,18 +390,15 @@ namespace TCP_Client
                     IPAddress ipAddress = ipHostInfo.AddressList[0];
 
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 12000);
-                    Console.WriteLine("IP Set");
 
                     // Create a TCP/IP  socket.
                     clientSocket = new Socket(AddressFamily.InterNetwork,
                         SocketType.Stream, ProtocolType.Tcp);
-                    Console.WriteLine("Socket Set");
 
 
                     // Connect the socket to the remote endpoint. Catch any errors.
                     try
                     {
-                        Console.WriteLine("connect to remote endpoint");
 
                         clientSocket.Connect(remoteEP);
 
@@ -461,6 +456,14 @@ namespace TCP_Client
             clientSocket.Send(msg);
             richTextBox1.Text += "\n" + comboBox1.Text+": "+ textBox1.Text;
             textBox1.Text = "";
+            int bytesRec = clientSocket.Receive(bytes);
+            Console.WriteLine("Echoed test = {0}",
+                Encoding.ASCII.GetString(bytes, 0, bytesRec));
+            String data = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+            richTextBox1.Text += "\n" + comboBox1.Text + ": " + data;
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
+
 
         }
     }

@@ -14,7 +14,7 @@ class ClientThread(threading.Thread):
         self.port = port
         self.csocket = clientsocket
         print "[+] New thread started for "+ip+":"+str(port)
-        ipList.extend([ip+":"+str(port)])
+        ipList.extend([ip])
         print '[%s]' % ', '.join(map(str, ipList))
         
 
@@ -28,17 +28,19 @@ class ClientThread(threading.Thread):
 
         while len(data):
             data = self.csocket.recv(2048)
-            print "Client(%s:%s) sent : %s"%(self.ip, str(self.port), data)
             #self.csocket.send("You sent me : "+data)
+
+            print "Client(%s:%s) sent : %s"%(self.ip, str(self.port), data)
             if data == "ping":
                 ipStr = ",".join(ipList)
                 clientsock.send(ipStr)
+
             print '[%s]' % ', '.join(map(str, ipList))
             if data == "exit":
                 data =""
 
         print "Client at "+self.ip+" disconnected..."
-        ipList.remove(ip+":"+str(port))
+        ipList.remove(ip)
         print '[%s]' % ', '.join(map(str, ipList))
 
 
