@@ -28,10 +28,11 @@ class ClientThread(threading.Thread):
 
         while len(data):
             data = self.csocket.recv(2048)
-            #self.csocket.send("You sent me : "+data)
+            self.csocket.send("You sent me : "+data)
 
             print "Client(%s:%s) sent : %s"%(self.ip, str(self.port), data)
             if data == "ping":
+                print "ping"
                 ipStr = ",".join(ipList)
                 clientsock.send(ipStr)
 

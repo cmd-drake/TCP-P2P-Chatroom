@@ -14,6 +14,7 @@ namespace TCP_Client
         // private TcpClient clientSocket;
         private Socket serverSocket;
         private Socket clientSocket;
+        private bool clientTalk = false;
 
         public Form1()
         {
@@ -46,6 +47,11 @@ namespace TCP_Client
 
                     serverSocket.Shutdown(SocketShutdown.Both);
                     serverSocket.Close();
+                    if (clientTalk == true)
+                    {
+                        clientSocket.Shutdown(SocketShutdown.Both);
+                        clientSocket.Close();
+                    }
                     if (exitServerBTN.InvokeRequired)
                     {
                         exitServerBTN.Invoke(new MethodInvoker(delegate
@@ -357,6 +363,12 @@ namespace TCP_Client
         }
         private void clientChat()
         {
+            if (clientTalk == true)
+            {
+                clientSocket.Shutdown(SocketShutdown.Both);
+                clientSocket.Close();
+            }
+            clientTalk = false;
             // closeConnection();
             new Thread(() =>
             {
@@ -431,6 +443,7 @@ namespace TCP_Client
                         byte[] msg = Encoding.ASCII.GetBytes("Test");
 
                         clientSocket.Send(msg);
+                        clientTalk = true;
 
                     }
                     catch (ArgumentNullException ane)
@@ -471,7 +484,7 @@ namespace TCP_Client
             richTextBox1.Text += "\n" + comboBox1.Text + ": " + data;
             richTextBox1.SelectionStart = richTextBox1.Text.Length;
             richTextBox1.ScrollToCaret();
-
+            
 
         }
     }
